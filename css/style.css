@@ -5,7 +5,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: grey;
+    background-color: #cccccc;
 }
 
 .flex-container {
@@ -15,19 +15,26 @@ body {
 #board div {
     width: 10px;
     height: 10px;
-    margin: 1px;
-    background-color: white;
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
     float: left;
 }
 
+#board div {
+    cursor: pointer;
+}
+
 #board div.live {
-    background-color: black;
+    background-color: #000000;
 }
 
 #board {
-    height: 700px;
-    width: 500px;
     margin: 50px auto 0;
+}
+
+#game-set {
+    margin: 50px auto;
+    width: 90px;
 }
 
 .hidden {

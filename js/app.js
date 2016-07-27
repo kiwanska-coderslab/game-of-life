@@ -1,104 +1,111 @@
 document.addEventListener("DOMContentLoaded", function () { 
 
-    console.log('jestem');
-    
-    // var Furry = function(x, y, direction) { 
-    //     this.x = x;
-    //     this.y = y;
-    //     this.direction = direction;
-    // };
+    var GameOfLife = function(boardWidth, boardHeight) {
+        var self = this;
+        this.width = boardWidth;
+        this.height = boardHeight;
+        this.board = document.getElementById('board');
+        this.cells = [];
+        this.interval;
+        this.tempBoard = [];
+        this.createBoard = function () {
+            this.board.style.width = this.width * 10 + 'px';
+            this.board.style.height = this.height * 10 + 'px';
+            var noOfCells = this.width * this.height;
+            for (var i = 0; i < noOfCells; i++) {
+                var newCell = document.createElement('div');
+                this.board.appendChild(newCell);
+            }
+            this.cells = this.board.querySelectorAll('div');
+            for (var i = 0; i < this.cells.length; i++) {
+                this.cells[i].addEventListener('mouseover', function(){
+                    this.classList.toggle('live');
+                });
+            }
+        }
+        this.position = function(x, y) {
+            var index = y * this.width + x;
+            return this.cells[index];
+        }
+        this.setCellState = function(x, y, state) {
+            if (state === 'live') {
+                this.position(x,y).classList.add('live');
+            } else if (state === 'dead'){
+                this.position(x,y).classList.remove('live');
+            }
+        }
+        this.computeCellNextState = function (x, y) {
+            var livingNeighbours = 0;
+            for (var i = y-1; i < y+2; i++) {
+                for (var j = x-1; j < x+2; j++) {
+                    if (i!==y || j!==x) {
+                        if (i >= 0 && i < this.height  && j >= 0 && j < this.width){
+                            if (this.position(j,i).className === 'live') {
+                                livingNeighbours++;
+                            }
+                        }  
+                    }
+                }
+            }
+            if (this.position(x,y).className === 'live'){
+                if (livingNeighbours === 2 || livingNeighbours === 3) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                if (livingNeighbours === 3) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+        this.computeNextGeneration = function() {
+            this.tempBoard = [];
+            for (var i = 0; i < this.height; i++) {
+                for (var j = 0; j < this.width; j++) {
+                    this.tempBoard.push(this.computeCellNextState(j,i));
+                }
+            }
+        }
+        this.printBoard = function() {
+            self.computeNextGeneration();
+            for (var i = 0; i < self.cells.length; i++) {
+                self.cells[i].classList.remove('live');
+                if (self.tempBoard[i] === 1) {
+                    self.cells[i].classList.add('live');
+                }
+            }
+        }
+        this.firstLife = function () {
+            this.setCellState(3,3,'live');
+            this.setCellState(3,4,'live');
+            this.setCellState(3,5,'live');
+            this.setCellState(2,5,'live');
+            this.setCellState(1,4,'live');
+        }
+        this.start = function() {
+            this.createBoard();
+            this.firstLife();
+            this.printBoard();
+        }
+        this.play = function() {
+            self.pause();
+            self.interval = setInterval(self.printBoard, 100);
+        }
+        this.pause = function() {
+            clearInterval(self.interval);
+        }
+        document.getElementById('play').addEventListener('click', this.play);
+        document.getElementById('pause').addEventListener('click', this.pause);
+    }
 
-    // var Coin = function() {
-    //     this.x = Math.floor(Math.random() * 10);
-    //     this.y = Math.floor(Math.random() * 10);
-    // }
+    var boardWidth = prompt("Enter width", "between 10 and 120");
+    var boardHeight = prompt("Enter height", "between 10 and 60");
 
-    // var Game = function() { 
-    //     this.board = document.querySelectorAll('#board div');
-    //     this.furry = new Furry(0, 0, 'right');
-    //     this.coin = new Coin();
-    //     this.score = 0;
-    //     self = this;
-    //     this.position = function(x, y) {
-    //         var index = x + y * 10;
-    //         return this.board[index];
-    //     }
-    //     this.drawFurry = function(){ 
-    //         for (var i = 0; i < this.board.length; i++) {
-    //              this.board[i].classList.remove("furry");
-    //         }
-    //         if (this.furry.x >= 0 && this.furry.y >= 0 && this.furry.x <=9 && this.furry.y <= 9) {
-    //             this.position(this.furry.x, this.furry.y).classList.add("furry");
-    //         }
-    //     }
-    //     this.drawCoin = function() {
-    //         for (var i = 0; i < this.board.length; i++) {
-    //             this.board[i].classList.remove("coin");
-    //         }
-    //         this.coin = new Coin();
-    //         this.position(this.coin.x, this.coin.y).classList.add("coin");
-    //     }
-    //     this.cursor = function(event) {
-    //         console.log('dsjhfkj');
-    //         if (event.which === 37) {
-    //             self.furry.direction = 'left';
-    //         }
-    //         if (event.which === 38) {
-    //             self.furry.direction = 'up';
-    //         }
-    //         if (event.which === 39) {
-    //             self.furry.direction = 'right';
-    //         }
-    //         if (event.which === 40) {
-    //             self.furry.direction = 'down';
-    //         }
-    //     }
-    //     this.go = function() {
-    //         if (this.furry.direction === 'left') {
-    //             this.furry.x --;
-    //         }
-    //         if (this.furry.direction === 'right') {
-    //             this.furry.x ++;
-    //         }
-    //         if (this.furry.direction === 'up') {
-    //             this.furry.y --;
-    //         }
-    //         if (this.furry.direction === 'down') {
-    //             this.furry.y ++;
-    //         }
-    //         this.drawFurry();
-    //     }
-    //     this.eat = function() {
-    //         if (this.furry.x === this.coin.x && this.furry.y === this.coin.y) {
-    //             this.score ++;
-    //             this.drawCoin();
-    //         }
-    //     }
-    //     this.die = function() {
-    //         if (this.furry.x < 0 || this.furry.y < 0 || this.furry.x > 9 || this.furry.y > 9) {
-    //             document.getElementById('board').classList.add('hidden');
-    //             clearInterval(step);
-    //             document.removeEventListener('keydown', self.cursor);
-    //             document.getElementById('game-over').classList.remove('hidden');
-    //         } 
-    //     }
-    //     this.showScore = function(){
-    //         document.getElementById('score').innerText = this.score;
-    //     }
-    //     this.step = function() {
-    //         self.go();
-    //         self.die();
-    //         self.eat();
-    //         self.showScore();
-            
-    //     }
-    //     document.addEventListener('keydown', self.cursor);
-    //     var step = setInterval(self.step, 300);
-    // };
-
-    // var play = new Game();
-    // play.drawFurry();
-    // play.drawCoin();
+    var game = new GameOfLife(boardWidth,boardHeight);
+    game.start();
 
 });
 
