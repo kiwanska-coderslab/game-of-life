@@ -111,18 +111,18 @@ Musimy więc stworzyć 3 metody:
     computeNextGeneration()
     printNextGeneration()
 
-* Generowanie przyszłego stanu komórki
+* **Generowanie przyszłego stanu komórki**
     * metoda ta powinna sprawdzić wszystkich ośmiu sąsiadów komórki o podanych współrzędnych i policzyć ilu z nich żyje
     * następnie zależnie od tego czy komórka ta jest żywa oraz od tego ilu sąsiadów żyje musimy ustalić jej przyszły stan
     * jeśli komórka ma być żywa niech nasza funkcja zwraca zero, w przypadku gdy ma być martwa, niech funkcja zwraca 1
 
-* Generowanie przyszłego wyglądu naszej planszy
+* **Generowanie przyszłego wyglądu naszej planszy**
     * musimy stworzyć zmienną, w której przechowamy cały stan przyszłej planszy – będzie to zbiór liczb 0 i 1, a więc tworząc tą zmienną musimy ją zdefiniować jako pustą tablicę
     * metoda ta powinna przejść po wszystkich komórkach i sprawdzić dla nich przyszły stan za pomocą `computeCellNextState(x, y)` – zwrócony wynik powinnien zostać dodany do tablicy w stworzonej przed chwilą zmiennej
     * ponieważ funkcji `computeCellNextState(x, y)` musimy podać współrzędne x i y, pamiętaj, aby do chodzenia po planszy użyć pętli w pętli (uważaj na to, żeby iść wiersz po wierszu, a nie kolumna po kolumnie)
     * po wykonaniu tej funkcji w zmiennej, którą zdefiniowaliśmy na początku, powinniśmy mieć dokładnie tyle elementów ile mamy komórek na planszy
 
-* Wyświetlanie nowego stanu tablicy
+* **Wyświetlanie nowego stanu tablicy**
     * metoda ta powinna przejść po wszystkich komórkach i ustawić im nowy stan bazując na informacjach zapisanych w zmiennej stworzonej w poprzednim kroku
     * ponieważ informacje o tym, jaki stan trzeba ustawić mamy w jednowymiarowej tablicy, łatwiej będzie nam tym razem poruszać się po naszej planszy również jako po jednowymiarowej tablicy – którą zapisaliśmy na samym początku do atrybutu tego obiektu o nazwie `cells`
     * pamiętaj, że komórki ożywiamy lub uśmiercamy poprzez dodawanie i usuwanie odpowiedniej klasy
@@ -130,6 +130,11 @@ Musimy więc stworzyć 3 metody:
 
 Uwaga: żeby przetestować działanie pisanych w tym kroku metod ustawmy tymczasowo wydarzenie na przycisku play, które po kliknięciu pokazuje kolejny krok animacji (czyli `printNextGeneration();`). 
 
+##7. Uruchomienie animacji – guziki *play* i *pause*
 
+Ostatnim krokiem jest uruchomienie animacji, czyli ustawienie interwału, który co pewną liczbę milisekund wywoła pojedynczy krok gry. Dodaj odpowiedni event do guzika *play*. Uruchomiony interwał zapisz do zmiennej, aby móc go czyścić po kliknięciu w *pause*.
 
-##7. Guziki *play* i *pause*
+**UWAGA:** *O ile dotychczas używaliśmy właściwości i metod obiektu `GameOfLife()` i odnosiliśmy się do nich używając słowa kluczowego this, w tym przypadku nie możemy tego zrobić: wewnątrz eventu lub interwału słowo kluczowe this przyjmuje inną wartość i nie wskazuje na obiekt. Aby to ominąć jako atrybut obiektu stwórz zmienną, np. o nazwie `self`, przypisz do niej wartość `this`, a potem wewnątrz metody obsługującej inetrwał używaj `self`. Pamiętaj o tym, że interwał, podobnie jak event, przejmuje kontrolę nad słowem kluczowym this. Musisz wykorzystać zmienną self, którą zdefiniowałeś przy okazji obsługi klawiatury.*
+
+##8. 
+
