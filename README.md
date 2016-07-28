@@ -8,7 +8,7 @@ Celem tego ćwiczenia jest napisanie prostej aplikacji w JavaScripcie, która po
 
 → obejrzyj też kilkuminutowy film tutaj: https://www.youtube.com/watch?v=C2vgICfQawE
 
-**Przypomnijmy podstawowe założenia:**
+####Przypomnijmy podstawowe założenia:
 * Game of Life to tak zwana zero-player game, która rozwija się na podstawie swojego podstawowego stanu.
 * Komórki powstają i umierają na dwuwymiarowej planszy, a ich stan uzależniony jest od ich otoczenia (ośmiu komórek będących ich sąsiadami):
     * Każda żywa komórka z mniej niż dwoma żywymi sąsiadami umiera z powodu zbyt małego zaludnienia.
@@ -18,7 +18,7 @@ Celem tego ćwiczenia jest napisanie prostej aplikacji w JavaScripcie, która po
 
 Użytkownik powinien zadeklarować, na jakiej planszy chce oglądać animacje (podając jej szerokość i wysokość). Powinna wyświetlić mu się plansza ze startową animacją (np. pojedynczym gliderem), na której może on za pomocą kliknięcia myszką włączać i wyłączać poszczególne pola. Poniżej planszy powinny znajdować się przycisk START i PAUZA, które będą uruchamiać lub zatrzymać animację w danym stanie, aby w każdym momencie użytkownik mógł zatrzymać animację, zmienić jej stan i włączyć ją na nowo. 
 
-**Opiszmy najpierw metody, które musi wykonywać nasz program:**
+####Opiszmy najpierw metody, które musi wykonywać nasz program:
 * Metoda, która buduje odpowiednią planszę na podstawie podanych wartości szerokości i wysokości (ograniczyć wysokość i szerokość w pikselach, stworzyć i dodać do DOMu odpowiednią ilość divów, zapisać je wszystkie do ciągu i dodać im event umożliwiający zmianę ich stanu po kliknięciu myszką).
 * Metoda wyświetlająca stan początkowy (np. z pojedynczym gliderem) – do tego potrzebować będziemy metody do poruszania się po ciągu divów za pomocą współrzędnych x, y i metody `setCellState`, która przyjmuje parametry x, y i state.
 * Metoda `computeCellNextState` przyjmujące parametry x i y, która na podstawie stanu tej komórki oraz stanu jej sąsiadów oblicza, czy ma ona przeżyć, czy umrzeć, czy ożyć.
