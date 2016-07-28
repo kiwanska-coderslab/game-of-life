@@ -94,10 +94,7 @@ indeks = x + y * width;
 Aby łatwiej nam było sprawdzać, czy dobrze programujemy naszą animację stwórzmy metodę, która wyświetli nam w lewym górnym rogu planszy [glidera](https://en.wikipedia.org/wiki/Glider_(Conway%27s_Life)#/media/File:Animated_glider_emblem.gif). W tym celu:
 
 * potrzebna nam będzie metoda `setCellState(x, y, state), która komórce o zadanych współrzędnych zmieni stan na podany za pomocą prostego wyrażenia warunkowego i usuwania i dodawania odpowiedniej klasy
-* 
-
-
-
+* stwórz metodę firstGlider(), w której ożywisz wybrane przez Ciebie 5 komórek (za pomocą metody `setCellState()`), aby wyświetlić glidera
 
 ##6. Kroki programu
 
@@ -108,13 +105,30 @@ Aby łatwiej nam było sprawdzać, czy dobrze programujemy naszą animację stw�
 * ustawienie nowego wyglądu komórki o współrzędnych x i y na podstawie danych z tej zmiennej
 * zastąpienie wyglądu tablicy wynikiem zapisanym w tej zmiennej
 
-Musimy więc stworzyć 3 metody (dwie do ustalania przyszłego stanu i dwie do rysowania nowego stanu planszy):
+Musimy więc stworzyć 3 metody:
     
     computeCellNextState(x, y)
     computeNextGeneration()
     printNextGeneration()
 
-Uwaga: żeby testować działanie pisanych metod ustawmy tymczasowo wydarzenie na przycisku play, które po kliknięciu pokazuje kolejny krok animacji (czyli `PrintNextGeneration();`). 
+* Generowanie przyszłego stanu komórki
+    * metoda ta powinna sprawdzić wszystkich ośmiu sąsiadów komórki o podanych współrzędnych i policzyć ilu z nich żyje
+    * następnie zależnie od tego czy komórka ta jest żywa oraz od tego ilu sąsiadów żyje musimy ustalić jej przyszły stan
+    * jeśli komórka ma być żywa niech nasza funkcja zwraca zero, w przypadku gdy ma być martwa, niech funkcja zwraca 1
+
+* Generowanie przyszłego wyglądu naszej planszy
+    * musimy stworzyć zmienną, w której przechowamy cały stan przyszłej planszy – będzie to zbiór liczb 0 i 1, a więc tworząc tą zmienną musimy ją zdefiniować jako pustą tablicę
+    * metoda ta powinna przejść po wszystkich komórkach i sprawdzić dla nich przyszły stan za pomocą `computeCellNextState(x, y)` – zwrócony wynik powinnien zostać dodany do tablicy w stworzonej przed chwilą zmiennej
+    * ponieważ funkcji `computeCellNextState(x, y)` musimy podać współrzędne x i y, pamiętaj, aby do chodzenia po planszy użyć pętli w pętli (uważaj na to, żeby iść wiersz po wierszu, a nie kolumna po kolumnie)
+    * po wykonaniu tej funkcji w zmiennej, którą zdefiniowaliśmy na początku, powinniśmy mieć dokładnie tyle elementów ile mamy komórek na planszy
+
+* Wyświetlanie nowego stanu tablicy
+    * metoda ta powinna przejść po wszystkich komórkach i ustawić im nowy stan bazując na informacjach zapisanych w zmiennej stworzonej w poprzednim kroku
+    * ponieważ informacje o tym, jaki stan trzeba ustawić mamy w jednowymiarowej tablicy, łatwiej będzie nam tym razem poruszać się po naszej planszy również jako po jednowymiarowej tablicy – którą zapisaliśmy na samym początku do atrybutu tego obiektu o nazwie `cells`
+    * pamiętaj, że komórki ożywiamy lub uśmiercamy poprzez dodawanie i usuwanie odpowiedniej klasy
+
+
+Uwaga: żeby przetestować działanie pisanych w tym kroku metod ustawmy tymczasowo wydarzenie na przycisku play, które po kliknięciu pokazuje kolejny krok animacji (czyli `printNextGeneration();`). 
 
 
 
