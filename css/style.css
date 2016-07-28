@@ -8,10 +8,6 @@ body {
     background-color: #cccccc;
 }
 
-.flex-container {
-
-}
-
 #board div {
     width: 10px;
     height: 10px;
@@ -35,8 +31,4 @@ body {
 #game-set {
     margin: 50px auto;
     width: 90px;
-}
-
-.hidden {
-    visibility: hidden;
 }
