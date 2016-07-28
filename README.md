@@ -1,13 +1,14 @@
-# game-of-life
+# Game of Life
 
-Celem tego ćwiczenia jest napisanie prostej aplikacji w JavaScripcie, która pokazywać będzie interaktywną animację opartą o jeden z pierwszych i najbardziej znanych przykładów automatu komórkowego, wymyślony w roku 1970 przez brytyjskiego matematyka Johna Conwaya. Będziemy pisać w czystym JavaScripcie, opierając się na założeniach programowania obiektowego(?).
+
+Celem tego ćwiczenia jest napisanie prostej aplikacji w JavaScripcie, która pokazywać będzie interaktywną animację opartą o jeden z pierwszych i najbardziej znanych przykładów automatu komórkowego, wymyślony w roku 1970 przez brytyjskiego matematyka Johna Conwaya. Będziemy pisać w czystym JavaScripcie, opierając się na założeniach programowania obiektowego.
 
 O Game Of Life możesz poczytać tutaj: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 obejrzyj też kilkuminutowy film tutaj: https://www.youtube.com/watch?v=C2vgICfQawE
 
 **Przypomnijmy podstawowe założenia:**
-1. Game of Life to tak zwana zero-player game, która rozwija się na podstawie swojego podstawowego stanu.
-2. Komórki powstają i umierają na dwuwymiarowej planszy, a ich stan uzależniony jest od ich otoczenia (ośmiu komórek będących ich sąsiadami):
+* Game of Life to tak zwana zero-player game, która rozwija się na podstawie swojego podstawowego stanu.
+* Komórki powstają i umierają na dwuwymiarowej planszy, a ich stan uzależniony jest od ich otoczenia (ośmiu komórek będących ich sąsiadami):
     * Każda żywa komórka z mniej niż dwoma żywymi sąsiadami umiera z powodu zbyt małego zaludnienia.
     * Każda żywa komórka z dwoma lub trzema żywymi sąsiadami żyje dalej.
     * Każda żywa komórka z więcej niż trzema żywymi sąsiadami umiera z powodu zbyt dużego zaludnienia.
@@ -16,15 +17,17 @@ obejrzyj też kilkuminutowy film tutaj: https://www.youtube.com/watch?v=C2vgICfQ
 Użytkownik powinien zadeklarować, na jakiej planszy chce oglądać animacje (podając jej szerokość i wysokość). Powinna wyświetlić mu się plansza ze startową animacją (np. pojedynczym gliderem), na której może on za pomocą kliknięcia myszką włączać i wyłączać poszczególne pola. Poniżej planszy powinny znajdować się przycisk START i PAUZA, które będą uruchamiać lub zatrzymać animację w danym stanie, aby w każdym momencie użytkownik mógł zatrzymać animację, zmienić jej stan i włączyć ją na nowo. 
 
 **Opiszmy najpierw metody, które musi wykonywać nasz program:**
-1. Metoda, która buduje odpowiednią planszę na podstawie podanych wartości szerokości i wysokości (ograniczyć wysokość i szerokość w pikselach, stworzyć i dodać do DOMu odpowiednią ilość divów, zapisać je wszystkie do ciągu i dodać im event umożliwiający zmianę ich stanu po kliknięciu myszką).
-2. Metoda wyświetlająca stan początkowy (np. z pojedynczym gliderem) – do tego potrzebować będziemy metody do poruszania się po ciągu divów za pomocą współrzędnych x, y i metody `setCellState`, która przyjmuje parametry x, y i state.
-5. Metoda `computeCellNextState` przyjmujące parametry x i y, która na podstawie stanu tej komórki oraz stanu jej sąsiadów oblicza, czy ma ona przeżyć, czy umrzeć, czy ożyć.
-6. Metoda `computeNextGeneration`, która na podstawie aktualnego stanu wszystkich komórek stworzy i zapisze do zmiennej tempGeneration nowy stan całej planszy (używając computeCellNextState).
-7. Metoda `printNextGeneration`, która zastąpi obecny stan wszystkich komórek nowym stanem (przechowywanym w `tempGeneration`).
-8. Metody `start` (w której zawrzemy wszystkie kroki początkowe), `play` (obsługująca event kliknięcia na button 'play' uruchomieniem animacji) i `pause` (obsługująca event kliknięcia na button 'pause' zatrzymaniem animacji).
+* Metoda, która buduje odpowiednią planszę na podstawie podanych wartości szerokości i wysokości (ograniczyć wysokość i szerokość w pikselach, stworzyć i dodać do DOMu odpowiednią ilość divów, zapisać je wszystkie do ciągu i dodać im event umożliwiający zmianę ich stanu po kliknięciu myszką).
+* Metoda wyświetlająca stan początkowy (np. z pojedynczym gliderem) – do tego potrzebować będziemy metody do poruszania się po ciągu divów za pomocą współrzędnych x, y i metody `setCellState`, która przyjmuje parametry x, y i state.
+* Metoda `computeCellNextState` przyjmujące parametry x i y, która na podstawie stanu tej komórki oraz stanu jej sąsiadów oblicza, czy ma ona przeżyć, czy umrzeć, czy ożyć.
+* Metoda `computeNextGeneration`, która na podstawie aktualnego stanu wszystkich komórek stworzy i zapisze do zmiennej tempGeneration nowy stan całej planszy (używając computeCellNextState).
+* Metoda `printNextGeneration`, która zastąpi obecny stan wszystkich komórek nowym stanem (przechowywanym w `tempGeneration`).
+* Metody `start` (w której zawrzemy wszystkie kroki początkowe), `play` (obsługująca event kliknięcia na button 'play' uruchomieniem animacji) i `pause` (obsługująca event kliknięcia na button 'pause' zatrzymaniem animacji).
 
 
 I tyle! Przejdziemy teraz powoli przez wszystkie te kroki, ale jeśli czujesz się na siłach móżesz spróbować napisać ten program tylko na podstawie powyższego skróconego opisu.
+
+
 
 ##1. Przygotowanie pliku z JavaScriptem
 * W głównym katalogu projektu utwórz katalog o nazwie js. Wewnątrz tego katalogu utwórz plik app.js. Podepnij ten plik do dokumentu HTML. W pliku app.js utwórz obsługę zdarzenia DOMContentLoaded i sprawdź, czy działa.
@@ -32,9 +35,9 @@ I tyle! Przejdziemy teraz powoli przez wszystkie te kroki, ale jeśli czujesz si
 ##2. Tworzenie obiektu zarządzającego grą
 Będziemy ćwiczyć programownie obiektowe, a więc całą naszą grę napiszemy jako obiekt `GameOfLife()`, który będzie zawierał informacje o planszy i metody do zarządzania grą. W tym celu w pliku app.js:
 
-* Utwórz konstruktor dla obiektów `GameOfLife, który powinien tworzyć naszą grę przyjmując parametry `boardWidth` i `boardHeight`. Zdefiniuj mu następujące właściwości:
-    * width: wartość parametru boardWidth
-    * height: wartość parametru boardHeight
+* Utwórz konstruktor dla obiektów `GameOfLife`, który powinien tworzyć naszą grę przyjmując parametry `boardWidth` i `boardHeight`. Zdefiniuj mu następujące właściwości:
+    * `width`: wartość parametru `boardWidth`
+    * `height`: wartość parametru `boardHeight`
 * Aby przetestować poprawność działania konstruktora zapisz do zmiennej `game` nowy obiekt typu `GameOfLife` z dowolnymi paramterami (np. 10, 10). Wypisz na konsoli zmienną `game` i sprawdź, czy obiekt ten przechowuje podane przez Ciebie wartości.
 
 **Pamiętaj o odpowiednim użyciu słowa kluczowego this wewnątrz obiektu!**
@@ -115,4 +118,4 @@ Uwaga: żeby testować działanie pisanych metod ustawmy tymczasowo wydarzenie n
 
 
 
-##7. Guziki Play i pause
+##7. Guziki *play* i *pause*
