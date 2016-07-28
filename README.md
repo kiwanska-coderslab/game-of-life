@@ -8,7 +8,7 @@ Celem tego ćwiczenia jest napisanie prostej aplikacji w JavaScripcie, która po
 
 → obejrzyj też kilkuminutowy film tutaj: https://www.youtube.com/watch?v=C2vgICfQawE
 
-####Przypomnijmy podstawowe założenia:
+##Przypomnijmy podstawowe założenia:
 * Game of Life to tak zwana zero-player game, która rozwija się na podstawie swojego podstawowego stanu.
 * Komórki powstają i umierają na dwuwymiarowej planszy, a ich stan uzależniony jest od ich otoczenia (ośmiu komórek będących ich sąsiadami):
     * Każda żywa komórka z mniej niż dwoma żywymi sąsiadami umiera z powodu zbyt małego zaludnienia.
@@ -18,7 +18,7 @@ Celem tego ćwiczenia jest napisanie prostej aplikacji w JavaScripcie, która po
 
 Użytkownik powinien zadeklarować, na jakiej planszy chce oglądać animacje (podając jej szerokość i wysokość). Powinna wyświetlić mu się plansza ze startową animacją (np. pojedynczym gliderem), na której może on za pomocą kliknięcia myszką włączać i wyłączać poszczególne pola. Poniżej planszy powinny znajdować się przycisk START i PAUZA, które będą uruchamiać lub zatrzymać animację w danym stanie, aby w każdym momencie użytkownik mógł zatrzymać animację, zmienić jej stan i włączyć ją na nowo. 
 
-####Opiszmy najpierw metody, które musi wykonywać nasz program:
+##Opiszmy najpierw metody, które musi wykonywać nasz program:
 * Metoda, która buduje odpowiednią planszę na podstawie podanych wartości szerokości i wysokości (ograniczyć wysokość i szerokość w pikselach, stworzyć i dodać do DOMu odpowiednią ilość divów, zapisać je wszystkie do ciągu i dodać im event umożliwiający zmianę ich stanu po kliknięciu myszką).
 * Metoda wyświetlająca stan początkowy (np. z pojedynczym gliderem) – do tego potrzebować będziemy metody do poruszania się po ciągu divów za pomocą współrzędnych x, y i metody `setCellState`, która przyjmuje parametry x, y i state.
 * Metoda `computeCellNextState` przyjmujące parametry x i y, która na podstawie stanu tej komórki oraz stanu jej sąsiadów oblicza, czy ma ona przeżyć, czy umrzeć, czy ożyć.
@@ -31,10 +31,10 @@ I tyle! Przejdziemy teraz powoli przez wszystkie te kroki, ale jeśli czujesz si
 
 
 
-##1. Przygotowanie pliku z JavaScriptem
+###1. Przygotowanie pliku z JavaScriptem
 * W głównym katalogu projektu utwórz katalog o nazwie js. Wewnątrz tego katalogu utwórz plik app.js. Podepnij ten plik do dokumentu HTML. W pliku app.js utwórz obsługę zdarzenia DOMContentLoaded i sprawdź, czy działa.
 
-##2. Tworzenie obiektu zarządzającego grą
+###2. Tworzenie obiektu zarządzającego grą
 Będziemy ćwiczyć programownie obiektowe, a więc całą naszą grę napiszemy jako obiekt `GameOfLife()`, który będzie zawierał informacje o planszy i metody do zarządzania grą. W tym celu w pliku app.js:
 
 * Utwórz konstruktor dla obiektów `GameOfLife`, który powinien tworzyć naszą grę przyjmując parametry `boardWidth` i `boardHeight`. Zdefiniuj mu następujące właściwości:
@@ -44,7 +44,7 @@ Będziemy ćwiczyć programownie obiektowe, a więc całą naszą grę napiszemy
 
 **Pamiętaj o odpowiednim użyciu słowa kluczowego this wewnątrz obiektu!**
 
-##2. Budowanie planszy 
+###2. Budowanie planszy 
 Zajrzyj do pliku index.html. Znajdziesz tam przygotowane dwie sekcje oraz dwa guziki do obsługi animacji.
 Zajrzyj też do pliku style.css, znajdującego się w katalogu css. Znajdziesz tam prototyp pliku ze stylami do naszej gry – każde pole planszy to div w sekcji `#board`, który zajmuje 10px szerokości i 10px wysokości. Podepnij plik CSS do dokumentu HTML.
 
@@ -63,14 +63,14 @@ Dzięki zastosowaniu `float: left` i ograniczeniu szerokości sekcji `#board` na
 
 Podejrzyj plik index.html w przeglądarce. Jeśli wszystko zrobiłeś poprawnie, powinieneś zobaczyć planszę o wymiarach zdefiniowanych przez Ciebie przy powoływaniu obiektu `GameOfLife()` do zmiennej `game`.
 
-##3. Ożywianie i uśmiercanie komórek poprzez kliknięcie myszką
+###3. Ożywianie i uśmiercanie komórek poprzez kliknięcie myszką
 
 Kliknięcie w martwą komórkę powinno ją ożywić i odwrotnie. Zajrzyj jeszcze raz do pliku style.css – przygotwaliśmy tam klasę `live`, która zmienia kolor komórki. Musimy dodać event do wszystkich elementów DOM, które są naszymi komórkami. Zrobimy to zaraz po stworzeniu tych elementów. W tym celu:
 
 * w metodzie `createBoard()` przeiteruj się po wszystkich elementach zapisanych do atrybutu `this.cells` i dodaj im event na kliknięcie
 * kliknięcie powinno przełączać (dodawać lub odejmować) danemu divowi klasę `live`
 
-##4. Wskazywanie danej komórki za pomocą współrzędnych x i y
+###4. Wskazywanie danej komórki za pomocą współrzędnych x i y
 
 W tym momencie możemy wskazać konkretną komórkę tylko poprez jej indeks w ciągu, mieszczący się w przedziale od 0 do width*height. Jednak komórki mają żyć lub umierać w zależności od swoich sąsiadów, których najlepiej określić jako:
 
@@ -91,14 +91,14 @@ Do obiektu dodaj metodę, która przeliczy współrzędne **x** i **y** na indek
 
 indeks = x + y * width;
 
-##5. Zdefiniowanie stanu początkowego
+###5. Zdefiniowanie stanu początkowego
 
 Aby łatwiej nam było sprawdzać, czy dobrze programujemy naszą animację stwórzmy metodę, która wyświetli nam w lewym górnym rogu planszy [glidera](https://en.wikipedia.org/wiki/Glider_(Conway%27s_Life)#/media/File:Animated_glider_emblem.gif). W tym celu:
 
 * potrzebna nam będzie metoda `setCellState(x, y, state), która komórce o zadanych współrzędnych zmieni stan na podany za pomocą prostego wyrażenia warunkowego i usuwania i dodawania odpowiedniej klasy
 * stwórz metodę firstGlider(), w której ożywisz wybrane przez Ciebie 5 komórek (za pomocą metody `setCellState()`), aby wyświetlić glidera
 
-##6. Kroki programu
+###6. Kroki programu
 
 Żeby poprawnie zastosować założenia Conwaya, musimy w tym samym momencie zmienić stan wszystkich komórek na nowy (błędem byłoby zmienianie każdej komórki po kolei, bo przed chwilą zmieniona wpływałaby na zmianę kolejnej, jako jej sąsiada). Zaplanujmy więc kroki, które musimy wykonywać, żeby animacja działała poprawnie:
 
@@ -132,11 +132,22 @@ Musimy więc stworzyć 3 metody:
 
 Uwaga: żeby przetestować działanie pisanych w tym kroku metod ustawmy tymczasowo wydarzenie na przycisku play, które po kliknięciu pokazuje kolejny krok animacji (czyli `printNextGeneration();`). 
 
-##7. Uruchomienie animacji – guziki *play* i *pause*
+###7. Uruchomienie animacji – guziki *play* i *pause*
 
 Ostatnim krokiem jest uruchomienie animacji, czyli ustawienie interwału, który co pewną liczbę milisekund wywoła pojedynczy krok gry. Dodaj odpowiedni event do guzika *play*. Uruchomiony interwał zapisz do zmiennej, aby móc go czyścić po kliknięciu w *pause*.
 
 **UWAGA:** *O ile dotychczas używaliśmy właściwości i metod obiektu `GameOfLife()` i odnosiliśmy się do nich używając słowa kluczowego this, w tym przypadku nie możemy tego zrobić: wewnątrz eventu lub interwału słowo kluczowe this przyjmuje inną wartość i nie wskazuje na obiekt. Aby to ominąć jako atrybut obiektu stwórz zmienną, np. o nazwie `self`, przypisz do niej wartość `this`, a potem wewnątrz metody obsługującej inetrwał używaj `self`. Pamiętaj o tym, że interwał, podobnie jak event, przejmuje kontrolę nad słowem kluczowym this. Musisz wykorzystać zmienną self, którą zdefiniowałeś przy okazji obsługi klawiatury.*
 
-##8. 
+##8. Ostatnie poprawki
 
+Jeśli doszedłeś do tego momentu, to znaczy, że twoja gra działa poprawnie. Brawo!
+
+Nie zapomnij, że gra powinna powstawać na podstawie wymyślonych przez użytkownika wartości szerokość i wysokość. Twojej inwencji pozostawiamy, jak zapytać użytkownika o te wartości. Zapisz te wyniki do zmiennych i użyj ich jako parametrów przy powoływaniu obiektu twojej gry.
+
+Pamiętaj, aby Twój obiekt wykonywał wszystkie niezbędne kroki początkowe dla ułatwienia (możesz zamknąć je w jednej metodzie `start()`).
+
+Jeśli chcesz, możesz zmienić event za pomocą którego użytkownik ożywia i uśmierca komórki – kliknięcie myszką będzie dokładne, ale trudne w użyciu, zamiast tego możesz użyć najechania myszką. 
+
+Jeśli zaś masz jeszcze siłę do dalszego działania, możesz dowolnie usprawnić działanie Twojej aplikacji (zadbaj o ciekawsze efekty wizualne lub dźwiękowe). 
+
+**Gratulacje!**
