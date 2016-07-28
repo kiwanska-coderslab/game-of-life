@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             this.cells = this.board.querySelectorAll('div');
             for (var i = 0; i < this.cells.length; i++) {
-                this.cells[i].addEventListener('mouseover', function(){
+                this.cells[i].addEventListener('mouseover', function() {
                     this.classList.toggle('live');
                 });
             }
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
             for (var i = y-1; i < y+2; i++) {
                 for (var j = x-1; j < x+2; j++) {
                     if (i!==y || j!==x) {
-                        if (i >= 0 && i < this.height  && j >= 0 && j < this.width){
+                        if (i >= 0 && i < this.height  && j >= 0 && j < this.width) {
                             if (this.position(j,i).className === 'live') {
                                 livingNeighbours++;
                             }
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.tempBoard = [];
             for (var i = 0; i < this.height; i++) {
                 for (var j = 0; j < this.width; j++) {
-                    this.tempBoard.push(this.computeCellNextState(j,i));
+                    this.tempBoard.push(this.computeCellNextState(j, i));
                 }
             }
         }
@@ -79,11 +79,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
         this.firstLife = function () {
-            this.setCellState(3,3,'live');
-            this.setCellState(3,4,'live');
-            this.setCellState(3,5,'live');
-            this.setCellState(2,5,'live');
-            this.setCellState(1,4,'live');
+            this.setCellState(3, 3, 'live');
+            this.setCellState(3, 4, 'live');
+            this.setCellState(3, 5, 'live');
+            this.setCellState(2, 5, 'live');
+            this.setCellState(1, 4, 'live');
         }
         this.start = function() {
             this.createBoard();
@@ -101,8 +101,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('pause').addEventListener('click', this.pause);
     }
 
-    var boardWidth = prompt("Enter width", "between 10 and 120");
-    var boardHeight = prompt("Enter height", "between 10 and 60");
+    var boardWidth = prompt("Enter width (between 10 and 120)", "");
+    var boardHeight = prompt("Enter height (between 10 and 60)", "");
 
     var game = new GameOfLife(boardWidth,boardHeight);
     game.start();
